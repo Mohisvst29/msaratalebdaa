@@ -141,6 +141,7 @@ export default function AdminProducts() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
+      console.log("Sending to DB:", formData);
       const data = await res.json();
       if (data.success) {
         setIsModalOpen(false);
@@ -217,7 +218,12 @@ export default function AdminProducts() {
               className="bg-white border border-gray-100 rounded-3xl overflow-hidden group hover:shadow-xl transition-all"
             >
               <div className="relative aspect-video w-full bg-gray-100">
-                <Image src={product.image} alt={product.name} fill className="object-cover opacity-90 group-hover:opacity-100 transition-opacity" />
+                <Image 
+                  src={product.image || "/images/hero-bg.png"} 
+                  alt={product.name} 
+                  fill 
+                  className="object-cover opacity-90 group-hover:opacity-100 transition-opacity" 
+                />
               </div>
               <div className="p-6">
                 <span className="text-[10px] font-black uppercase tracking-[0.2em] text-cyan-500 mb-2 block">{product.category}</span>

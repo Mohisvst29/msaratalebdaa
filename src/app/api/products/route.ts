@@ -18,6 +18,7 @@ export async function POST(req: Request) {
   try {
     await dbConnect();
     const body = await req.json();
+    console.log("POST /api/products - Body:", body);
     const product = await Product.create(body);
     return NextResponse.json({ success: true, data: product });
   } catch (error) {

@@ -143,6 +143,32 @@ export default function AdminSettings() {
     });
   };
 
+  const handleBackgroundUpload = async (e: React.ChangeEvent<HTMLInputElement>, key: string) => {
+    const originalFile = e.target.files?.[0];
+    if (!originalFile) return;
+
+    setUploading(true);
+    try {
+      const file = await compressImage(originalFile);
+      const data = new FormData();
+      data.append("file", file);
+
+      const res = await fetch("/api/upload", { method: "POST", body: data });
+      const result = await res.json();
+      if (result.success && result.url) {
+        setSettings({ ...settings, [key]: result.url });
+        alert(`تم رفع خلفية ${key} بنجاح! لا تنسى الضغط على حفظ الكل.`);
+      } else {
+        alert("فشل الرفع: " + (result.error || "خطأ في السيرفر"));
+      }
+    } catch (err: any) {
+      console.error(err);
+      alert("حدث خطأ أثناء الرفع: " + err.message);
+    } finally {
+      setUploading(false);
+    }
+  };
+
   if (loading) return (
     <div className="flex justify-center py-24">
       <Loader2 className="w-12 h-12 text-cyan-500 animate-spin" />
@@ -275,6 +301,62 @@ export default function AdminSettings() {
               </div>
             </div>
           </div>
+        </div>
+      </motion.section>
+ 
+      {/* Section Backgrounds */}
+      <motion.section 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm p-8 md:p-12"
+      >
+        <div className="flex justify-between items-center mb-12">
+          <div className="flex items-center gap-4">
+            <div className="w-10 h-10 bg-purple-50 text-purple-500 rounded-xl flex items-center justify-center">
+              <Upload className="w-6 h-6" />
+            </div>
+            <h4 className="text-xl font-black text-slate-900">خلفيات الأقسام</h4>
+          </div>
+          <div className="flex gap-4">
+             <button 
+                onClick={() => updateSetting("hero_bg", settings.hero_bg)}
+                className="bg-purple-100 text-purple-600 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest hover:bg-purple-200 transition-all"
+              >
+                حفظ الخلفيات
+              </button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {[
+            { label: "خلفية الرئيسية", key: "hero_bg" },
+            { label: "خلفية الخدمات", key: "services_bg" },
+            { label: "خلفية المنتجات", key: "products_bg" },
+            { label: "خلفية التواصل", key: "contact_bg" },
+          ].map((item) => (
+            <div key={item.key} className="space-y-4">
+              <label className="text-xs font-bold text-slate-400 uppercase tracking-widest block text-center">{item.label}</label>
+              <div className="relative aspect-video bg-gray-50 border-2 border-dashed border-gray-200 rounded-2xl overflow-hidden group">
+                {settings[item.key] ? (
+                  <>
+                    <Image src={settings[item.key]} alt={item.label} fill className="object-cover" />
+                    <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <label className="bg-white text-slate-900 px-4 py-2 rounded-full text-[10px] font-bold cursor-pointer">
+                        تغيير
+                        <input type="file" onChange={(e) => handleBackgroundUpload(e, item.key)} className="hidden" accept="image/*" />
+                      </label>
+                    </div>
+                  </>
+                ) : (
+                  <label className="w-full h-full flex flex-col items-center justify-center cursor-pointer hover:bg-gray-100 transition-colors">
+                    <Upload className="w-6 h-6 text-slate-200 mb-2" />
+                    <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">رفع صورة</span>
+                    <input type="file" onChange={(e) => handleBackgroundUpload(e, item.key)} className="hidden" accept="image/*" />
+                  </label>
+                )}
+              </div>
+            </div>
+          ))}
         </div>
       </motion.section>
 

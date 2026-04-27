@@ -134,6 +134,7 @@ export default function AdminServices() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
+      console.log("Saving service:", formData);
       const data = await res.json();
       if (data.success) {
         setIsModalOpen(false);
@@ -208,7 +209,12 @@ export default function AdminServices() {
               className="bg-white border border-gray-100 rounded-3xl overflow-hidden flex flex-col md:flex-row group hover:shadow-lg transition-all"
             >
               <div className="relative aspect-video md:aspect-square w-full md:w-48 shrink-0 bg-gray-100">
-                <Image src={service.image} alt={service.title} fill className="object-cover opacity-90 group-hover:opacity-100 transition-opacity" />
+                <Image 
+                  src={service.image || "/images/hero-bg.png"} 
+                  alt={service.title} 
+                  fill 
+                  className="object-cover opacity-90 group-hover:opacity-100 transition-opacity" 
+                />
               </div>
               <div className="p-8 flex-1 flex flex-col justify-center">
                 <h4 className="text-2xl font-black text-slate-900 uppercase tracking-tighter mb-2">{service.title}</h4>
