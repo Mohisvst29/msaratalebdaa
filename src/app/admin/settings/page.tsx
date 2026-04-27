@@ -214,6 +214,55 @@ export default function AdminSettings() {
           </div>
         </div>
       </motion.section>
+
+      {/* Security & Login Section */}
+      <motion.section 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm p-8 md:p-12"
+      >
+        <div className="flex justify-between items-center mb-12">
+          <div className="flex items-center gap-4">
+            <div className="w-10 h-10 bg-red-50 text-red-500 rounded-xl flex items-center justify-center">
+              <Save className="w-6 h-6" />
+            </div>
+            <h4 className="text-xl font-black text-slate-900">إعدادات الحماية والدخول</h4>
+          </div>
+          <button 
+            onClick={() => updateSetting("admin_creds", settings.admin_creds)}
+            disabled={saving}
+            className="bg-red-500 text-white px-8 py-3 rounded-xl font-bold text-xs uppercase tracking-widest hover:shadow-lg hover:shadow-red-200 transition-all disabled:opacity-50"
+          >
+            تحديث بيانات الدخول
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="space-y-2">
+            <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mr-4">البريد الإلكتروني للمسؤول</label>
+            <input
+              type="email"
+              placeholder="admin@example.com"
+              value={settings.admin_creds?.email || ""}
+              onChange={(e) => handleInputChange("admin_creds", "email", e.target.value)}
+              className="w-full bg-gray-50 border border-gray-200 rounded-2xl p-4 text-slate-900 focus:border-red-500 outline-none transition-colors"
+            />
+          </div>
+          <div className="space-y-2">
+            <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mr-4">كلمة المرور الجديدة</label>
+            <input
+              type="password"
+              placeholder="••••••••"
+              value={settings.admin_creds?.password || ""}
+              onChange={(e) => handleInputChange("admin_creds", "password", e.target.value)}
+              className="w-full bg-gray-50 border border-gray-200 rounded-2xl p-4 text-slate-900 focus:border-red-500 outline-none transition-colors"
+            />
+          </div>
+        </div>
+        <p className="mt-6 text-sm text-slate-400 italic">
+          * ملاحظة: تغيير هذه البيانات سيؤثر على عملية تسجيل الدخول القادمة. يرجى حفظ البيانات في مكان آمن.
+        </p>
+      </motion.section>
     </div>
   );
 }

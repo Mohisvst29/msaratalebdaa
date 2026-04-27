@@ -1,12 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { signToken } from "@/lib/auth";
+import dbConnect from "@/lib/mongodb";
+import Setting from "@/models/Setting";
 
 export async function POST(request: NextRequest) {
   try {
     const { email, password } = await request.json();
+    await dbConnect();
 
-    const adminEmail = process.env.ADMIN_EMAIL;
-    const adminPassword = process.env.ADMIN_PASSWORD;
+    // Check DB for custom credentials first
+    const dbSettings = await Setting.findOne({ key: "admin_creds" });
+    const adminEmail = dbSettings?.value?.email || process.env.ADMIN_EMAIL;
+    const adminPassword = dbSettings?.value?.password || process.env.ADMIN_PASSWORD;
 
     if (!email || !password) {
       return NextResponse.json(
