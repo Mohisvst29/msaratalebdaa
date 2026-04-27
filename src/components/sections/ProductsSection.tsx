@@ -56,7 +56,7 @@ export default function ProductsSection({ bgImage }: ProductsSectionProps) {
     window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank");
   };
 
-  const productsBg = settings?.products_bg;
+
 
   if (loading) return (
     <div className="py-24 bg-white flex justify-center">
