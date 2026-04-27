@@ -144,6 +144,24 @@ export async function GET() {
       );
     }
 
+    // Seed Default Settings if they don't exist
+    const defaultSettings = [
+      { key: "logo", value: { companyName: "مسارات الإبداع", companyNameEn: "Masarat Al Ibdaa", size: 150, fontFamily: "Tajawal", primaryColor: "#00AEEF" } },
+      { key: "hero_bg", value: "/images/hero-bg.png" },
+      { key: "services_bg", value: "" },
+      { key: "products_bg", value: "" },
+      { key: "contact_bg", value: "" },
+      { key: "contact_info", value: { email: "info@masarat.com", phone1: "966507655173", addressAr: "المملكة العربية السعودية" } }
+    ];
+
+    for (const setting of defaultSettings) {
+      await Setting.findOneAndUpdate(
+        { key: setting.key },
+        { $setOnInsert: setting },
+        { upsert: true }
+      );
+    }
+
     // Seed Admin Credentials (if not exists)
     await Setting.findOneAndUpdate(
       { key: "admin_creds" },
