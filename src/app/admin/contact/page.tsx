@@ -124,6 +124,25 @@ export default function AdminContact() {
                 dir="ltr"
               />
             </div>
+            <div className="space-y-2">
+              <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mr-4">العنوان (بالعربية)</label>
+              <input
+                value={settings.contact_info?.addressAr || ""}
+                onChange={(e) => handleInputChange("contact_info", "addressAr", e.target.value)}
+                className="w-full bg-gray-50 border border-gray-200 rounded-2xl p-4 text-slate-900 focus:border-cyan-500 outline-none transition-colors"
+                placeholder="مثال: الرياض، حي الملز، طريق صلاح الدين"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mr-4">Address (English)</label>
+              <input
+                value={settings.contact_info?.addressEn || ""}
+                onChange={(e) => handleInputChange("contact_info", "addressEn", e.target.value)}
+                className="w-full bg-gray-50 border border-gray-200 rounded-2xl p-4 text-slate-900 focus:border-cyan-500 outline-none transition-colors text-left"
+                dir="ltr"
+                placeholder="Example: Riyadh, Al Malaz, Salah Al Din Road"
+              />
+            </div>
           </div>
         </motion.section>
 

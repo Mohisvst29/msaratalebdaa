@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useLocale } from "@/hooks/useLocale";
 import { 
-  Building2, Mail, Phone, Globe
+  Building2, Mail, Phone, Globe, MapPin
 } from "lucide-react";
 
 // Social Media SVGs
@@ -128,6 +128,14 @@ export default function Footer() {
                     {contactInfo?.website || t("contact.website.value")}
                   </span>
                 </li>
+                {(contactInfo?.addressAr || contactInfo?.addressEn) && (
+                  <li className="flex items-start gap-4">
+                    <MapPin className="w-6 h-6 text-[#00AEEF] shrink-0 mt-1" />
+                    <span className="text-slate-600 text-sm font-medium leading-relaxed">
+                      {locale === "ar" ? contactInfo.addressAr : contactInfo.addressEn || contactInfo.addressAr}
+                    </span>
+                  </li>
+                )}
               </ul>
 
               <div className="space-y-4 md:space-y-6">

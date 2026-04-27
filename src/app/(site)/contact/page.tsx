@@ -42,7 +42,7 @@ export default function ContactPage() {
     {
       icon: MapPin,
       title: t("contact.address.label"),
-      value: settings?.address || t("contact.address.value"),
+      value: locale === "ar" ? (settings?.addressAr || t("contact.address.value")) : (settings?.addressEn || settings?.addressAr || t("contact.address.value")),
     },
     {
       icon: Phone,
