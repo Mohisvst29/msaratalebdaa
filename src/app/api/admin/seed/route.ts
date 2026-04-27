@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import Service from "@/models/Service";
 import Product from "@/models/Product";
+import Setting from "@/models/Setting";
 
 export const dynamic = "force-dynamic";
 
