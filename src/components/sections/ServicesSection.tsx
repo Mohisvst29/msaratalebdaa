@@ -49,7 +49,7 @@ export default function ServicesSection({ bgImage }: ServicesSectionProps) {
 
   if (services.length === 0) return null;
 
-  const isVideo = bgImage && (bgImage.includes("/video/upload/") || bgImage.endsWith(".mp4"));
+  const isVideo = typeof bgImage === "string" && (bgImage.includes("/video/upload/") || bgImage.endsWith(".mp4"));
 
   return (
     <section className="py-16 md:py-32 relative overflow-hidden bg-white">

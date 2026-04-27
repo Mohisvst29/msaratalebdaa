@@ -68,9 +68,8 @@ export default function ProductsSection({ bgImage }: ProductsSectionProps) {
 
   return (
     <section className="py-16 md:py-32 bg-white border-t border-gray-100 relative overflow-hidden">
-      {/* Background Media */}
       <div className="absolute inset-0 z-0">
-        {bgImage && (bgImage.includes("/video/upload/") || bgImage.endsWith(".mp4")) ? (
+        {typeof bgImage === "string" && (bgImage.includes("/video/upload/") || bgImage.endsWith(".mp4")) ? (
           <video 
             src={bgImage} 
             autoPlay 
@@ -79,7 +78,7 @@ export default function ProductsSection({ bgImage }: ProductsSectionProps) {
             playsInline 
             className="w-full h-full object-cover opacity-10" 
           />
-        ) : bgImage ? (
+        ) : typeof bgImage === "string" ? (
           <Image 
             src={bgImage} 
             alt="Background" 

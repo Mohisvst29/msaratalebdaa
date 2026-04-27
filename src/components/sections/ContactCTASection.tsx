@@ -13,7 +13,7 @@ interface ContactCTASectionProps {
 export default function ContactCTASection({ bgImage }: ContactCTASectionProps) {
   const { t, dir, locale, dynamic } = useLocale();
   const Arrow = dir === "rtl" ? ArrowLeft : ArrowRight;
-  const isVideo = bgImage && (bgImage.includes("/video/upload/") || bgImage.endsWith(".mp4"));
+  const isVideo = typeof bgImage === "string" && (bgImage.includes("/video/upload/") || bgImage.endsWith(".mp4"));
 
   return (
     <section className="py-24 md:py-32 bg-[#00AEEF] relative overflow-hidden">

@@ -43,12 +43,14 @@ export default function HeroSection({ initialData, bgImage }: HeroSectionProps) 
     ? validImages 
     : [bgImage || "/images/hero-bg.png"];
   
-  const heroImages = displayImages.filter((img: string) => !img.includes("/video/upload/") && !img.endsWith(".mp4"));
+  const heroImages = displayImages.filter((img: any) => 
+    typeof img === "string" && !img.includes("/video/upload/") && !img.endsWith(".mp4")
+  );
   
   // Check for video
-  const hasVideo = (heroData?.video && heroData.video.trim().length > 10) || 
-                  (bgImage && (bgImage.includes("/video/upload/") || bgImage.endsWith(".mp4")));
-  const videoUrl = hasVideo ? (bgImage?.includes("/video/upload/") ? bgImage : heroData?.video) : null;
+  const hasVideo = (heroData?.video && typeof heroData.video === "string" && heroData.video.trim().length > 10) || 
+                  (typeof bgImage === "string" && (bgImage.includes("/video/upload/") || bgImage.endsWith(".mp4")));
+  const videoUrl = hasVideo ? (typeof bgImage === "string" && bgImage.includes("/video/upload/") ? bgImage : heroData?.video) : null;
 
   useEffect(() => {
     if (hasVideo || heroImages.length <= 1) return;
