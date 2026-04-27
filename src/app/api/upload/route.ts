@@ -5,43 +5,35 @@ export async function POST(req: Request) {
   try {
     const formData = await req.formData();
     const file = formData.get("file") as File;
-    const resource_type = (formData.get("resource_type") as string) || "image";
+    const resource_type = (formData.get("resource_type") as string) || "auto";
 
     if (!file) {
-      return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
+      return NextResponse.json({ success: false, error: "لم يتم اختيار ملف" }, { status: 400 });
     }
 
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
+    const fileBase64 = `data:${file.type};base64,${buffer.toString("base64")}`;
 
-    console.log(`Uploading ${file.name} (${file.size} bytes) to Cloudinary...`);
+    console.log(`Attempting to upload ${file.name} to Cloudinary...`);
 
-    const uploadResponse = await new Promise((resolve, reject) => {
-      const uploadStream = cloudinary.uploader.upload_stream(
-        { 
-          folder: "masarat_website",
-          resource_type: resource_type as any,
-          overwrite: true,
-        },
-        (error, result) => {
-          if (error) {
-            console.error("Cloudinary upload error:", error);
-            reject(error);
-          } else {
-            resolve(result);
-          }
-        }
-      );
-      uploadStream.end(buffer);
+    const result = await cloudinary.uploader.upload(fileBase64, {
+      folder: "masarat_website",
+      resource_type: resource_type as any,
     });
 
     return NextResponse.json({ 
       success: true,
-      url: (uploadResponse as any).secure_url, 
-      type: resource_type 
+      url: result.secure_url, 
+      type: result.resource_type 
     });
+
   } catch (error: any) {
-    console.error("Upload API Error:", error);
-    return NextResponse.json({ error: error.message || "Upload failed" }, { status: 500 });
+    console.error("Cloudinary Detailed Error:", error);
+    return NextResponse.json({ 
+      success: false, 
+      error: error.message || "حدث خطأ غير متوقع أثناء الرفع",
+      details: error
+    }, { status: 500 });
   }
 }
