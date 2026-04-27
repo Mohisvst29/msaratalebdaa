@@ -117,7 +117,7 @@ export default function ProductsSection() {
             >
               <div className="relative w-full aspect-[16/10] overflow-hidden mb-4 md:mb-8 bg-slate-50 border border-slate-100 rounded-2xl shadow-sm">
                 <Image
-                  src={product.image}
+                  src={product.image || "/images/hero-bg.png"}
                   alt={locale === "ar" ? product.name : product.nameEn || product.name}
                   fill
                   className="object-cover group-hover:scale-105 transition-all duration-1000"

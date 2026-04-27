@@ -5,9 +5,9 @@ const ProductSchema = new mongoose.Schema({
   nameEn: { type: String, required: true },
   description: { type: String, required: true },
   descriptionEn: { type: String, required: true },
-  image: { type: String, required: true },
-  category: { type: String, required: true },
-  categoryEn: { type: String, required: true },
+  image: { type: String },
+  category: { type: String },
+  categoryEn: { type: String },
 }, { timestamps: true });
 
 export default mongoose.models.Product || mongoose.model("Product", ProductSchema);

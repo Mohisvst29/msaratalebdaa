@@ -127,7 +127,7 @@ export default function ServicesSection() {
                       >
                         <div className="px-6 pb-8 md:px-8 md:pb-10 text-slate-500 text-base md:text-lg leading-relaxed font-light">
                           <div className="lg:hidden relative aspect-video w-full mb-6 rounded-2xl overflow-hidden">
-                            <Image src={service.image} alt={service.title} fill className="object-cover" />
+                            <Image src={service.image || "/images/hero-bg.png"} alt={service.title} fill className="object-cover" />
                           </div>
                           {locale === "ar" ? service.description : service.descriptionEn}
                         </div>
@@ -151,7 +151,7 @@ export default function ServicesSection() {
                 className="absolute inset-0"
               >
                 <Image
-                  src={services[openIndex].image}
+                  src={services[openIndex].image || "/images/hero-bg.png"}
                   alt={locale === "ar" ? services[openIndex].title : services[openIndex].titleEn}
                   fill
                   className="object-cover"

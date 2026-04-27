@@ -5,7 +5,7 @@ const ServiceSchema = new mongoose.Schema({
   titleEn: { type: String, required: true },
   description: { type: String, required: true },
   descriptionEn: { type: String, required: true },
-  image: { type: String, required: true },
+  image: { type: String },
 }, { timestamps: true });
 
 export default mongoose.models.Service || mongoose.model("Service", ServiceSchema);
