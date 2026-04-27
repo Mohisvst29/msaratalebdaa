@@ -20,7 +20,7 @@ export async function POST(req: Request) {
       const uploadStream = cloudinary.uploader.upload_stream(
         { 
           folder: "masarat_website",
-          resource_type: resource_type,
+          resource_type: resource_type as any,
           overwrite: true,
         },
         (error, result) => {
