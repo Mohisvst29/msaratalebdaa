@@ -43,7 +43,7 @@ export default function HeroSection({ initialData, bgImage }: HeroSectionProps) 
     ? validImages 
     : [bgImage || "/images/hero-bg.png"];
   
-  const heroImages = displayImages.filter(img => !img.includes("/video/upload/") && !img.endsWith(".mp4"));
+  const heroImages = displayImages.filter((img: string) => !img.includes("/video/upload/") && !img.endsWith(".mp4"));
   
   // Check for video
   const hasVideo = (heroData?.video && heroData.video.trim().length > 10) || 
