@@ -149,16 +149,6 @@ export default function Navbar() {
                 <span>{locale === "ar" ? "EN" : "عربي"}</span>
               </button>
 
-              <Link 
-                href="/admin"
-                className={`group flex items-center justify-center bg-transparent border px-6 py-2 rounded-full font-bold text-sm uppercase tracking-widest transition-colors ${
-                  isScrolled 
-                    ? "border-slate-900 text-slate-900 hover:border-[#00AEEF] hover:text-[#00AEEF]" 
-                    : "border-white/20 text-white hover:border-[#00AEEF] hover:text-[#00AEEF]"
-                }`}
-              >
-                {t("nav.admin")}
-              </Link>
             </div>
 
             {/* Mobile Menu Button */}
@@ -247,13 +237,6 @@ export default function Navbar() {
                 <span>{locale === "ar" ? "Switch to English" : "التبديل للعربية"}</span>
               </button>
 
-              <Link 
-                href="/admin"
-                onClick={() => setIsOpen(false)}
-                className="w-full bg-[#00AEEF] hover:bg-[#008FBF] text-white rounded-xl py-4 text-center font-bold uppercase tracking-widest transition-colors"
-              >
-                {t("nav.admin")}
-              </Link>
             </div>
           </motion.div>
         )}

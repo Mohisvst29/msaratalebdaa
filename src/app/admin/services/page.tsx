@@ -55,11 +55,14 @@ export default function AdminServices() {
     try {
       const res = await fetch("/api/upload", { method: "POST", body: data });
       const result = await res.json();
-      if (result.url) {
+      if (result.success && result.url) {
         setFormData({ ...formData, image: result.url });
+      } else {
+        alert("فشل رفع الصورة: " + (result.error || "تأكد من إعدادات Cloudinary"));
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
+      alert("حدث خطأ تقني أثناء الرفع: " + err.message);
     } finally {
       setUploading(false);
     }
@@ -82,9 +85,13 @@ export default function AdminServices() {
         setEditingService(null);
         setFormData({ title: "", titleEn: "", description: "", descriptionEn: "", image: "" });
         fetchServices();
+        alert("تم حفظ الخدمة بنجاح!");
+      } else {
+        alert("فشل الحفظ: " + (data.error || "خطأ في قاعدة البيانات"));
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
+      alert("حدث خطأ أثناء الاتصال بالقاعدة: " + err.message);
     }
   };
 

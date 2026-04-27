@@ -38,10 +38,14 @@ export default function AdminSettings() {
       const data = await res.json();
       if (data.success) {
         setSuccess(true);
+        alert("تم حفظ الإعدادات بنجاح!");
         setTimeout(() => setSuccess(false), 3000);
+      } else {
+        alert("فشل الحفظ: " + (data.error || "خطأ غير معروف"));
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
+      alert("حدث خطأ أثناء الاتصال بالقاعدة: " + err.message);
     } finally {
       setSaving(false);
     }
@@ -58,12 +62,16 @@ export default function AdminSettings() {
     try {
       const res = await fetch("/api/upload", { method: "POST", body: data });
       const result = await res.json();
-      if (result.url) {
+      if (result.success && result.url) {
         const logoData = { ...(settings.logo || {}), url: result.url };
         setSettings({ ...settings, logo: logoData });
+        alert("تم رفع الشعار بنجاح! لا تنسى الضغط على حفظ الكل.");
+      } else {
+        alert("فشل رفع الشعار: " + (result.error || "تأكد من إعدادات Cloudinary"));
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
+      alert("حدث خطأ أثناء الرفع: " + err.message);
     } finally {
       setUploading(false);
     }

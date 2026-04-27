@@ -59,11 +59,14 @@ export default function AdminProducts() {
     try {
       const res = await fetch("/api/upload", { method: "POST", body: data });
       const result = await res.json();
-      if (result.url) {
+      if (result.success && result.url) {
         setFormData({ ...formData, image: result.url });
+      } else {
+        alert("فشل رفع الصورة: " + (result.error || "تأكد من إعدادات Cloudinary"));
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
+      alert("حدث خطأ تقني أثناء الرفع: " + err.message);
     } finally {
       setUploading(false);
     }
@@ -86,9 +89,13 @@ export default function AdminProducts() {
         setEditingProduct(null);
         setFormData({ name: "", nameEn: "", description: "", descriptionEn: "", image: "", category: "", categoryEn: "" });
         fetchProducts();
+        alert("تم حفظ المنتج بنجاح!");
+      } else {
+        alert("فشل الحفظ في قاعدة البيانات: " + (data.error || "خطأ غير معروف"));
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
+      alert("حدث خطأ أثناء الاتصال بالقاعدة: " + err.message);
     }
   };
 

@@ -5,34 +5,43 @@ export async function POST(req: Request) {
   try {
     const formData = await req.formData();
     const file = formData.get("file") as File;
+    const resource_type = (formData.get("resource_type") as string) || "image";
 
     if (!file) {
-      return NextResponse.json({ error: "No file provided" }, { status: 400 });
+      return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
     }
 
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Determine resource type (image or video)
-    const isVideo = file.type.startsWith("video/");
-    const resource_type = isVideo ? "video" : "image";
+    console.log(`Uploading ${file.name} (${file.size} bytes) to Cloudinary...`);
 
     const uploadResponse = await new Promise((resolve, reject) => {
-      cloudinary.uploader.upload_stream(
+      const uploadStream = cloudinary.uploader.upload_stream(
         { 
           folder: "masarat_website",
-          resource_type: resource_type
+          resource_type: resource_type,
+          overwrite: true,
         },
         (error, result) => {
-          if (error) reject(error);
-          else resolve(result);
+          if (error) {
+            console.error("Cloudinary upload error:", error);
+            reject(error);
+          } else {
+            resolve(result);
+          }
         }
-      ).end(buffer);
+      );
+      uploadStream.end(buffer);
     });
 
-    return NextResponse.json({ url: (uploadResponse as any).secure_url, type: resource_type });
-  } catch (error) {
-    console.error("Upload error:", error);
-    return NextResponse.json({ error: "Upload failed" }, { status: 500 });
+    return NextResponse.json({ 
+      success: true,
+      url: (uploadResponse as any).secure_url, 
+      type: resource_type 
+    });
+  } catch (error: any) {
+    console.error("Upload API Error:", error);
+    return NextResponse.json({ error: error.message || "Upload failed" }, { status: 500 });
   }
 }
