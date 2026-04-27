@@ -84,7 +84,7 @@ export default function ClientsSection() {
           {[...partners, ...partners, ...partners, ...partners].map((partner, index) => (
             <div
               key={`${partner._id}-${index}`}
-              className="relative w-24 h-12 md:w-48 md:h-24 shrink-0 transition-all duration-500 hover:scale-110 grayscale hover:grayscale-0 opacity-60 hover:opacity-100"
+              className="relative w-24 h-12 md:w-48 md:h-24 shrink-0 transition-all duration-500 hover:scale-110 opacity-100"
             >
               <Image
                 src={partner.logo}
