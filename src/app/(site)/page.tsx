@@ -29,13 +29,16 @@ export default async function HomePage() {
 
   return (
     <>
-      <HeroSection initialData={settings.hero} />
-      <ServicesSection />
-      <ProductsSection />
+      <HeroSection 
+        initialData={settings.hero} 
+        bgImage={settings.hero_bg} 
+      />
+      <ServicesSection bgImage={settings.services_bg} />
+      <ProductsSection bgImage={settings.products_bg} />
       <ProjectsSection />
       <WhyChooseUsSection />
       <ClientsSection />
-      <ContactCTASection />
+      <ContactCTASection bgImage={settings.contact_bg} />
     </>
   );
 }

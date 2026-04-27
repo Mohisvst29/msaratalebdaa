@@ -9,9 +9,10 @@ import { useEffect, useState, useRef } from "react";
 
 interface HeroSectionProps {
   initialData?: any;
+  bgImage?: string;
 }
 
-export default function HeroSection({ initialData }: HeroSectionProps) {
+export default function HeroSection({ initialData, bgImage }: HeroSectionProps) {
   const { locale, t, dir, dynamic } = useLocale();
   const Arrow = dir === "rtl" ? ArrowLeft : ArrowRight;
   
@@ -36,9 +37,18 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
 
   const rawImages = heroData?.images || [];
   const validImages = rawImages.filter((img: string) => img && img.length > 5);
-  const heroImages = validImages.length > 0 ? validImages : ["/images/hero-bg.png"];
   
-  const hasVideo = heroData?.video && heroData.video.trim().length > 10;
+  // Logic to use bgImage if no images in heroData
+  const displayImages = validImages.length > 0 
+    ? validImages 
+    : [bgImage || "/images/hero-bg.png"];
+  
+  const heroImages = displayImages.filter(img => !img.includes("/video/upload/") && !img.endsWith(".mp4"));
+  
+  // Check for video
+  const hasVideo = (heroData?.video && heroData.video.trim().length > 10) || 
+                  (bgImage && (bgImage.includes("/video/upload/") || bgImage.endsWith(".mp4")));
+  const videoUrl = hasVideo ? (bgImage?.includes("/video/upload/") ? bgImage : heroData?.video) : null;
 
   useEffect(() => {
     if (hasVideo || heroImages.length <= 1) return;
@@ -69,7 +79,7 @@ export default function HeroSection({ initialData }: HeroSectionProps) {
           <div className="absolute inset-0 w-full h-full">
             <video
               ref={videoRef}
-              src={heroData.video}
+              src={videoUrl || ""}
               autoPlay
               muted
               loop

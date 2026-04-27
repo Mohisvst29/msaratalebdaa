@@ -18,8 +18,12 @@ interface Product {
   categoryEn: string;
 }
 
-export default function ProductsSection() {
-  const { locale, t, dir, dynamic, settings } = useLocale();
+interface ProductsSectionProps {
+  bgImage?: string;
+}
+
+export default function ProductsSection({ bgImage }: ProductsSectionProps) {
+  const { locale, t, dir, dynamic } = useLocale();
   const Arrow = dir === "rtl" ? ArrowLeft : ArrowRight;
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -66,18 +70,18 @@ export default function ProductsSection() {
     <section className="py-16 md:py-32 bg-white border-t border-gray-100 relative overflow-hidden">
       {/* Background Media */}
       <div className="absolute inset-0 z-0">
-        {productsBg?.video ? (
+        {bgImage && (bgImage.includes("/video/upload/") || bgImage.endsWith(".mp4")) ? (
           <video 
-            src={productsBg.video} 
+            src={bgImage} 
             autoPlay 
             muted 
             loop 
             playsInline 
             className="w-full h-full object-cover opacity-10" 
           />
-        ) : productsBg?.image ? (
+        ) : bgImage ? (
           <Image 
-            src={productsBg.image} 
+            src={bgImage} 
             alt="Background" 
             fill 
             className="object-cover opacity-10" 

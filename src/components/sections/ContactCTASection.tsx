@@ -6,27 +6,31 @@ import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
 
-export default function ContactCTASection() {
-  const { t, dir, locale, dynamic, settings } = useLocale();
+interface ContactCTASectionProps {
+  bgImage?: string;
+}
+
+export default function ContactCTASection({ bgImage }: ContactCTASectionProps) {
+  const { t, dir, locale, dynamic } = useLocale();
   const Arrow = dir === "rtl" ? ArrowLeft : ArrowRight;
-  const contactBg = settings?.contact_bg;
+  const isVideo = bgImage && (bgImage.includes("/video/upload/") || bgImage.endsWith(".mp4"));
 
   return (
     <section className="py-24 md:py-32 bg-[#00AEEF] relative overflow-hidden">
       {/* Background Media */}
       <div className="absolute inset-0 z-0">
-        {contactBg?.video ? (
+        {isVideo ? (
           <video 
-            src={contactBg.video} 
+            src={bgImage} 
             autoPlay 
             muted 
             loop 
             playsInline 
             className="w-full h-full object-cover opacity-20" 
           />
-        ) : contactBg?.image ? (
+        ) : bgImage ? (
           <Image 
-            src={contactBg.image} 
+            src={bgImage} 
             alt="Background" 
             fill 
             className="object-cover opacity-20" 

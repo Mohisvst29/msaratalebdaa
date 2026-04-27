@@ -15,7 +15,11 @@ interface Service {
   image: string;
 }
 
-export default function ServicesSection() {
+interface ServicesSectionProps {
+  bgImage?: string;
+}
+
+export default function ServicesSection({ bgImage }: ServicesSectionProps) {
   const { t, dir, locale, dynamic } = useLocale();
   const [services, setServices] = useState<Service[]>([]);
   const [settings, setSettings] = useState<any>(null);
@@ -52,22 +56,24 @@ export default function ServicesSection() {
 
   if (services.length === 0) return null;
 
+  const isVideo = bgImage && (bgImage.includes("/video/upload/") || bgImage.endsWith(".mp4"));
+
   return (
     <section className="py-16 md:py-32 relative overflow-hidden bg-white">
       {/* Background Media */}
       <div className="absolute inset-0 z-0">
-        {settings?.video ? (
+        {isVideo ? (
           <video 
-            src={settings.video} 
+            src={bgImage} 
             autoPlay 
             muted 
             loop 
             playsInline 
             className="w-full h-full object-cover opacity-10" 
           />
-        ) : settings?.image ? (
+        ) : bgImage ? (
           <Image 
-            src={settings.image} 
+            src={bgImage} 
             alt="Background" 
             fill 
             className="object-cover opacity-10" 
