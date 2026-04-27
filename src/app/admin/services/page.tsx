@@ -49,7 +49,7 @@ export default function AdminServices() {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = (event) => {
-        const img = new Image();
+        const img = new window.Image();
         img.onload = () => {
           const canvas = document.createElement("canvas");
           const MAX_WIDTH = 1000;
