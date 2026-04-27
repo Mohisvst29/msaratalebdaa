@@ -1,4 +1,6 @@
 import dbConnect from "@/lib/mongodb";
+export const dynamic = "force-dynamic";
+
 import Setting from "@/models/Setting";
 import HeroSection from "@/components/sections/HeroSection";
 import ServicesSection from "@/components/sections/ServicesSection";
