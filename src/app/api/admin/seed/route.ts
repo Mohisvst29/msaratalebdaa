@@ -147,8 +147,7 @@ export async function GET() {
     await Setting.findOneAndUpdate(
       { key: "admin_creds" },
       { 
-        $setOnInsert: { 
-          key: "admin_creds", 
+        $set: { 
           value: { 
             email: "admin@masarat.com", 
             password: "masarat2030" 
