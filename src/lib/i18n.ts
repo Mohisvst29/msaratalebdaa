@@ -118,6 +118,7 @@ const translations = {
     "footer.quickLinks": "روابط سريعة",
     "footer.contactInfo": "معلومات التواصل",
     "footer.rights": "جميع الحقوق محفوظة",
+    "footer.followUs": "تابعنا على",
 
     // Common
     "common.loading": "جاري التحميل...",
@@ -227,6 +228,7 @@ const translations = {
     "footer.quickLinks": "Quick Links",
     "footer.contactInfo": "Contact Info",
     "footer.rights": "All rights reserved",
+    "footer.followUs": "Follow Us",
 
     // Common
     "common.loading": "Loading...",
