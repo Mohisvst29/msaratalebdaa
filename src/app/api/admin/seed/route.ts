@@ -143,9 +143,24 @@ export async function GET() {
       );
     }
 
+    // Seed Admin Credentials (if not exists)
+    await Setting.findOneAndUpdate(
+      { key: "admin_creds" },
+      { 
+        $setOnInsert: { 
+          key: "admin_creds", 
+          value: { 
+            email: "admin@masarat.com", 
+            password: "masarat2030" 
+          } 
+        } 
+      },
+      { upsert: true }
+    );
+
     return NextResponse.json({ 
       success: true, 
-      message: "Database seeded successfully with services and products" 
+      message: "Database seeded successfully with services, products, and admin credentials" 
     });
   } catch (error: any) {
     console.error("Seed error:", error);
