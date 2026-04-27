@@ -12,7 +12,7 @@ interface Partner {
 }
 
 export default function ClientsSection() {
-  const { t, locale, dynamic, settings } = useLocale();
+  const { t, locale, dynamic, settings, dir } = useLocale();
   const [partners, setPartners] = useState<Partner[]>([]);
   const clientsBg = settings?.clients_bg;
 
