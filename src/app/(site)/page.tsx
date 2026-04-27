@@ -13,13 +13,17 @@ import ContactCTASection from "@/components/sections/ContactCTASection";
 async function getSettings() {
   try {
     await dbConnect();
-    const settings = await Setting.find({});
+    const settings = await Setting.find({}).lean();
+    if (!settings || !Array.isArray(settings)) return {};
+    
     return settings.reduce((acc: any, curr: any) => {
-      acc[curr.key] = curr.value;
+      if (curr && curr.key) {
+        acc[curr.key] = curr.value;
+      }
       return acc;
     }, {});
   } catch (error) {
-    console.error("Error fetching settings:", error);
+    console.error("Critical error fetching settings:", error);
     return {};
   }
 }

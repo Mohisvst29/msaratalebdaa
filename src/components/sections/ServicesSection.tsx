@@ -29,16 +29,9 @@ export default function ServicesSection({ bgImage }: ServicesSectionProps) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [servicesRes, settingsRes] = await Promise.all([
-          fetch("/api/services"),
-          fetch("/api/settings")
-        ]);
-        
-        const servicesData = await servicesRes.json();
-        const settingsData = await settingsRes.json();
-        
-        if (servicesData.success) setServices(servicesData.data);
-        if (settingsData.success) setSettings(settingsData.data.services_bg);
+        const res = await fetch("/api/services");
+        const data = await res.json();
+        if (data.success) setServices(data.data);
       } catch (err) {
         console.error("Error fetching services data:", err);
       } finally {
