@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import dbConnect from "../../../../lib/mongodb";
+import dbConnect from "@/lib/mongodb";
 import Project from "@/models/Project";
 
 export const dynamic = "force-dynamic";
