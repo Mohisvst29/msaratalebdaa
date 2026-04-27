@@ -27,18 +27,18 @@ export default function AdminSettings() {
     }
   };
 
-  const updateSetting = async (key: string, value: any) => {
+  const updateSettings = async (dataToSave: any) => {
     setSaving(true);
     try {
       const res = await fetch("/api/settings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ key, value }),
+        body: JSON.stringify(dataToSave),
       });
       const data = await res.json();
       if (data.success) {
         setSuccess(true);
-        alert("تم حفظ الإعدادات بنجاح!");
+        alert("تم حفظ جميع الإعدادات بنجاح!");
         setTimeout(() => setSuccess(false), 3000);
       } else {
         alert("فشل الحفظ: " + (data.error || "خطأ غير معروف"));
@@ -49,6 +49,17 @@ export default function AdminSettings() {
     } finally {
       setSaving(false);
     }
+  };
+
+  const handleSaveAll = () => {
+    const batch = [
+      { key: "logo", value: settings.logo },
+      { key: "hero_bg", value: settings.hero_bg },
+      { key: "services_bg", value: settings.services_bg },
+      { key: "products_bg", value: settings.products_bg },
+      { key: "contact_bg", value: settings.contact_bg },
+    ];
+    updateSettings(batch);
   };
 
   const compressImage = (file: File): Promise<File> => {
@@ -185,7 +196,7 @@ export default function AdminSettings() {
           <h3 className="text-xl font-bold text-slate-900">إعدادات الهوية والشعار</h3>
         </div>
         <button 
-          onClick={() => updateSetting("logo", settings.logo)}
+          onClick={handleSaveAll}
           disabled={saving}
           className="flex items-center gap-2 bg-cyan-500 text-white px-8 py-3 rounded-xl font-bold text-xs uppercase tracking-widest hover:shadow-lg hover:shadow-cyan-200 transition-all disabled:opacity-50"
         >
@@ -319,7 +330,7 @@ export default function AdminSettings() {
           </div>
           <div className="flex gap-4">
              <button 
-                onClick={() => updateSetting("hero_bg", settings.hero_bg)}
+                onClick={handleSaveAll}
                 className="bg-purple-100 text-purple-600 px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest hover:bg-purple-200 transition-all"
               >
                 حفظ الخلفيات
@@ -374,7 +385,7 @@ export default function AdminSettings() {
             <h4 className="text-xl font-black text-slate-900">إعدادات الحماية والدخول</h4>
           </div>
           <button 
-            onClick={() => updateSetting("admin_creds", settings.admin_creds)}
+            onClick={() => updateSettings({ key: "admin_creds", value: settings.admin_creds })}
             disabled={saving}
             className="bg-red-500 text-white px-8 py-3 rounded-xl font-bold text-xs uppercase tracking-widest hover:shadow-lg hover:shadow-red-200 transition-all disabled:opacity-50"
           >
