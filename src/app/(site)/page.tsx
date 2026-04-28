@@ -42,6 +42,7 @@ export default async function HomePage() {
       <ProjectsSection />
       <WhyChooseUsSection />
       <ClientsSection />
+      <MapSection />
       <ContactCTASection bgImage={settings.contact_bg} />
     </>
   );

@@ -54,6 +54,7 @@ export default function AdminSettings() {
   const handleSaveAll = () => {
     const batch = [
       { key: "logo", value: settings.logo },
+      { key: "contact_info", value: settings.contact_info },
       { key: "hero_bg", value: settings.hero_bg },
       { key: "services_bg", value: settings.services_bg },
       { key: "products_bg", value: settings.products_bg },
@@ -477,6 +478,80 @@ export default function AdminSettings() {
               </div>
             </div>
           ))}
+        </div>
+      </motion.section>
+
+      {/* Contact & Location Section */}
+      <motion.section 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm p-8 md:p-12"
+      >
+        <div className="flex justify-between items-center mb-12">
+          <div className="flex items-center gap-4">
+            <div className="w-10 h-10 bg-cyan-50 text-cyan-500 rounded-xl flex items-center justify-center">
+              <MapPin className="w-6 h-6" />
+            </div>
+            <h4 className="text-xl font-black text-slate-900">بيانات التواصل والموقع</h4>
+          </div>
+          <button 
+            onClick={handleSaveAll}
+            className="bg-cyan-500 text-white px-8 py-3 rounded-xl font-bold text-xs uppercase tracking-widest hover:shadow-lg hover:shadow-cyan-200 transition-all"
+          >
+            حفظ التغييرات
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="space-y-4">
+            <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mr-4">رقم الجوال 1</label>
+            <input
+              value={settings.contact_info?.phone1 || ""}
+              onChange={(e) => handleInputChange("contact_info", "phone1", e.target.value)}
+              className="w-full bg-gray-50 border border-gray-200 rounded-2xl p-4 text-slate-900 focus:border-cyan-500 outline-none"
+              dir="ltr"
+            />
+          </div>
+          <div className="space-y-4">
+            <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mr-4">رقم الجوال 2</label>
+            <input
+              value={settings.contact_info?.phone2 || ""}
+              onChange={(e) => handleInputChange("contact_info", "phone2", e.target.value)}
+              className="w-full bg-gray-50 border border-gray-200 rounded-2xl p-4 text-slate-900 focus:border-cyan-500 outline-none"
+              dir="ltr"
+            />
+          </div>
+          <div className="space-y-4">
+            <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mr-4">البريد الإلكتروني</label>
+            <input
+              value={settings.contact_info?.email || ""}
+              onChange={(e) => handleInputChange("contact_info", "email", e.target.value)}
+              className="w-full bg-gray-50 border border-gray-200 rounded-2xl p-4 text-slate-900 focus:border-cyan-500 outline-none"
+              dir="ltr"
+            />
+          </div>
+          <div className="space-y-4">
+            <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mr-4">رقم الواتساب</label>
+            <input
+              value={settings.contact_info?.whatsapp || ""}
+              onChange={(e) => handleInputChange("contact_info", "whatsapp", e.target.value)}
+              className="w-full bg-gray-50 border border-gray-200 rounded-2xl p-4 text-slate-900 focus:border-cyan-500 outline-none"
+              dir="ltr"
+            />
+          </div>
+          <div className="md:col-span-2 space-y-4">
+            <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mr-4">رابط خريطة جوجل (Iframe URL)</label>
+            <input
+              placeholder="https://www.google.com/maps/embed?..."
+              value={settings.contact_info?.mapUrl || ""}
+              onChange={(e) => handleInputChange("contact_info", "mapUrl", e.target.value)}
+              className="w-full bg-gray-50 border border-gray-200 rounded-2xl p-4 text-slate-900 focus:border-cyan-500 outline-none"
+              dir="ltr"
+            />
+            <p className="text-[10px] text-slate-400">
+              * اذهب لخرائط جوجل > مشاركة > تضمين خريطة > انسخ الرابط الموجود داخل src فقط.
+            </p>
+          </div>
         </div>
       </motion.section>
 
