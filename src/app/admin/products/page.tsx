@@ -413,7 +413,7 @@ export default function AdminProducts() {
 
                 <button
                   type="submit"
-                  disabled={uploading}
+                  disabled={uploadingIndex !== null}
                   className="w-full bg-cyan-500 text-white font-black py-6 rounded-2xl uppercase tracking-widest hover:shadow-xl hover:shadow-cyan-200 active:scale-[0.98] transition-all flex items-center justify-center gap-3 disabled:opacity-50"
                 >
                   {editingProduct ? <Check className="w-6 h-6" /> : <Plus className="w-6 h-6" />}
