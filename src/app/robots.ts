@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: "/admin/",
     },
-    sitemap: "https://masarat-alibdaa.com/sitemap.xml",
+    sitemap: "https://www.mibda.com/sitemap.xml",
   };
 }

@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://masarat-alibdaa.com";
+  const baseUrl = "https://www.mibda.com";
   
   return [
     {
