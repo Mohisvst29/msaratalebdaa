@@ -133,12 +133,7 @@ export default function HeroSection({ initialData, bgImage }: HeroSectionProps) 
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
         >
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-12 h-[2px] bg-[#00AEEF]" />
-            <span className="text-[#00AEEF] font-bold tracking-[0.2em] uppercase text-sm">
-              {dynamic("hero", locale === "ar" ? "subtitle" : "subtitleEn", "hero.subtitle", heroData)}
-            </span>
-          </div>
+
 
           <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-slate-900 leading-[0.9] tracking-tighter mb-8 max-w-5xl uppercase">
             {dynamic("hero", locale === "ar" ? "title" : "titleEn", "hero.title", heroData)}
@@ -160,10 +155,10 @@ export default function HeroSection({ initialData, bgImage }: HeroSectionProps) 
               )}
               <Link 
                 href="/projects"
-                className="group flex items-center justify-center w-32 h-32 rounded-full border border-slate-200 hover:border-[#00AEEF] transition-colors duration-500 "
+                className="group flex items-center justify-center w-32 h-32 rounded-full border-2 border-slate-900 bg-white/20 hover:bg-[#00AEEF] hover:border-[#00AEEF] backdrop-blur-sm transition-all duration-500 shadow-lg"
               >
-                <div className="text-slate-400 group-hover:text-[#00AEEF] flex flex-col items-center gap-2 transition-colors">
-                  <span className="text-xs uppercase tracking-widest">{locale === "ar" ? "اكتشف" : "Explore"}</span>
+                <div className="text-slate-900 group-hover:text-white flex flex-col items-center gap-2 transition-colors duration-500">
+                  <span className="text-sm font-bold uppercase tracking-widest">{locale === "ar" ? "اكتشف" : "Explore"}</span>
                   <Arrow className="w-6 h-6 transform group-hover:translate-x-2 rtl:group-hover:-translate-x-2 transition-transform duration-500" />
                 </div>
               </Link>
