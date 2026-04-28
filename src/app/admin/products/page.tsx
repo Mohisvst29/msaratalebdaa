@@ -12,6 +12,7 @@ interface Product {
   description: string;
   descriptionEn: string;
   image: string;
+  images?: string[];
   category: string;
   categoryEn: string;
 }
@@ -21,7 +22,7 @@ export default function AdminProducts() {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  const [uploading, setUploading] = useState(false);
+  const [uploadingIndex, setUploadingIndex] = useState<number | 'main' | null>(null);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -29,6 +30,7 @@ export default function AdminProducts() {
     description: "",
     descriptionEn: "",
     image: "",
+    images: ["", "", ""], // 3 additional images
     category: "",
     categoryEn: "",
   });
@@ -56,7 +58,7 @@ export default function AdminProducts() {
         const img = new window.Image();
         img.onload = () => {
           const canvas = document.createElement("canvas");
-          const MAX_WIDTH = 1000; // Reduced for better safety
+          const MAX_WIDTH = 1000;
           const MAX_HEIGHT = 1000;
           let width = img.width;
           let height = img.height;
@@ -82,8 +84,8 @@ export default function AdminProducts() {
             (blob) => {
               if (blob) {
                 const compressedFile = new File([blob], file.name, {
-                  type: "image/jpeg",
-                  lastModified: Date.now(),
+                   type: "image/jpeg",
+                   lastModified: Date.now(),
                 });
                 resolve(compressedFile);
               } else {
@@ -91,7 +93,7 @@ export default function AdminProducts() {
               }
             },
             "image/jpeg",
-            0.7 // Reduced quality slightly to ensure small size
+            0.7
           );
         };
         img.onerror = () => resolve(file);
@@ -101,24 +103,27 @@ export default function AdminProducts() {
     });
   };
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, index: 'main' | number) => {
     const originalFile = e.target.files?.[0];
     if (!originalFile) return;
 
-    setUploading(true);
+    setUploadingIndex(index);
     
     try {
-      // Compress the image before uploading
       const file = await compressImage(originalFile);
-      console.log(`Original: ${originalFile.size} bytes, Compressed: ${file.size} bytes`);
-
       const data = new FormData();
       data.append("file", file);
 
       const res = await fetch("/api/upload", { method: "POST", body: data });
       const result = await res.json();
       if (result.success && result.url) {
-        setFormData({ ...formData, image: result.url });
+        if (index === 'main') {
+          setFormData({ ...formData, image: result.url });
+        } else {
+          const newImages = [...formData.images];
+          newImages[index] = result.url;
+          setFormData({ ...formData, images: newImages });
+        }
       } else {
         alert("فشل رفع الصورة: " + (result.error || "تأكد من إعدادات Cloudinary"));
       }
@@ -126,7 +131,7 @@ export default function AdminProducts() {
       console.error(err);
       alert("حدث خطأ تقني أثناء الرفع: " + err.message);
     } finally {
-      setUploading(false);
+      setUploadingIndex(null);
     }
   };
 
@@ -141,12 +146,11 @@ export default function AdminProducts() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-      console.log("Sending to DB:", formData);
       const data = await res.json();
       if (data.success) {
         setIsModalOpen(false);
         setEditingProduct(null);
-        setFormData({ name: "", nameEn: "", description: "", descriptionEn: "", image: "", category: "", categoryEn: "" });
+        setFormData({ name: "", nameEn: "", description: "", descriptionEn: "", image: "", images: ["", "", ""], category: "", categoryEn: "" });
         fetchProducts();
         alert("تم حفظ المنتج بنجاح!");
       } else {
@@ -182,6 +186,7 @@ export default function AdminProducts() {
       description: product.description,
       descriptionEn: product.descriptionEn,
       image: product.image,
+      images: product.images && product.images.length >= 3 ? product.images : (product.images ? [...product.images, ...Array(3 - product.images.length).fill("")] : ["", "", ""]),
       category: product.category,
       categoryEn: product.categoryEn,
     });
@@ -195,7 +200,7 @@ export default function AdminProducts() {
         <button
           onClick={() => {
             setEditingProduct(null);
-            setFormData({ name: "", nameEn: "", description: "", descriptionEn: "", image: "", category: "", categoryEn: "" });
+            setFormData({ name: "", nameEn: "", description: "", descriptionEn: "", image: "", images: ["", "", ""], category: "", categoryEn: "" });
             setIsModalOpen(true);
           }}
           className="flex items-center gap-2 bg-cyan-500 text-white font-black px-6 py-3 rounded-2xl text-sm uppercase tracking-widest hover:shadow-lg hover:shadow-cyan-200 transition-all"
@@ -279,31 +284,59 @@ export default function AdminProducts() {
 
               <form onSubmit={handleSubmit} className="space-y-8">
                 <div className="space-y-4">
-                  <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mr-4">صورة المنتج</label>
-                  <div className="relative aspect-video w-full bg-gray-50 border-2 border-dashed border-gray-200 rounded-3xl overflow-hidden flex flex-col items-center justify-center group">
-                    {formData.image ? (
-                      <>
-                        <Image src={formData.image} alt="Preview" fill className="object-cover" />
-                        <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                          <label className="bg-white text-slate-900 px-6 py-2 rounded-full font-bold cursor-pointer hover:scale-105 transition-transform">
-                            تغيير الصورة
-                            <input type="file" onChange={handleImageUpload} className="hidden" accept="image/*" />
-                          </label>
+                  <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mr-4">صور المنتج (حتى 4 صور)</label>
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    {/* Main Image */}
+                    <div className="md:col-span-2 relative aspect-video w-full bg-gray-50 border-2 border-dashed border-gray-200 rounded-3xl overflow-hidden flex flex-col items-center justify-center group">
+                      {uploadingIndex === 'main' ? (
+                        <Loader2 className="w-10 h-10 text-cyan-500 animate-spin" />
+                      ) : formData.image ? (
+                        <>
+                          <Image src={formData.image} alt="Preview" fill className="object-cover" />
+                          <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <label className="bg-white text-slate-900 px-6 py-2 rounded-full font-bold cursor-pointer hover:scale-105 transition-transform">
+                              تغيير الأساسية
+                              <input type="file" onChange={(e) => handleImageUpload(e, 'main')} className="hidden" accept="image/*" />
+                            </label>
+                          </div>
+                        </>
+                      ) : (
+                        <label className="w-full h-full flex flex-col items-center justify-center cursor-pointer hover:bg-gray-100 transition-colors">
+                          <Upload className="w-10 h-10 text-slate-200 mb-2" />
+                          <span className="text-slate-400 font-bold text-xs">الصورة الرئيسية</span>
+                          <input type="file" onChange={(e) => handleImageUpload(e, 'main')} className="hidden" accept="image/*" />
+                        </label>
+                      )}
+                    </div>
+
+                    {/* Additional Images */}
+                    <div className="md:col-span-2 grid grid-cols-3 md:grid-cols-1 gap-2">
+                      {formData.images.map((img, idx) => (
+                        <div key={idx} className="relative aspect-square md:aspect-auto md:h-[calc((100%-1rem)/3)] bg-gray-50 border-2 border-dashed border-gray-200 rounded-2xl overflow-hidden flex items-center justify-center group">
+                          {uploadingIndex === idx ? (
+                            <Loader2 className="w-6 h-6 text-cyan-500 animate-spin" />
+                          ) : img ? (
+                            <>
+                              <Image src={img} alt={`Extra ${idx}`} fill className="object-cover" />
+                              <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <button type="button" onClick={() => {
+                                  const newImages = [...formData.images];
+                                  newImages[idx] = "";
+                                  setFormData({ ...formData, images: newImages });
+                                }} className="bg-white text-red-500 p-2 rounded-full hover:scale-110 transition-transform">
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              </div>
+                            </>
+                          ) : (
+                            <label className="w-full h-full flex flex-col items-center justify-center cursor-pointer hover:bg-gray-100 transition-colors">
+                              <Plus className="w-6 h-6 text-slate-200" />
+                              <input type="file" onChange={(e) => handleImageUpload(e, idx)} className="hidden" accept="image/*" />
+                            </label>
+                          )}
                         </div>
-                      </>
-                    ) : (
-                      <label className="w-full h-full flex flex-col items-center justify-center cursor-pointer hover:bg-gray-100 transition-colors">
-                        {uploading ? (
-                          <Loader2 className="w-10 h-10 text-cyan-500 animate-spin mb-4" />
-                        ) : (
-                          <Upload className="w-10 h-10 text-slate-200 mb-4" />
-                        )}
-                        <span className="text-slate-400 font-bold uppercase tracking-widest text-sm">
-                          {uploading ? "جاري الرفع..." : "اضغط لرفع صورة المنتج"}
-                        </span>
-                        <input type="file" onChange={handleImageUpload} className="hidden" accept="image/*" />
-                      </label>
-                    )}
+                      ))}
+                    </div>
                   </div>
                 </div>
 
