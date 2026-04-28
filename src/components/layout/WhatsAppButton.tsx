@@ -7,7 +7,7 @@ import { useLocale } from "@/hooks/useLocale";
 
 export default function WhatsAppButton() {
   const { settings } = useLocale();
-  const whatsappNumber = settings?.contact_info?.whatsapp || process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "966500000000";
+  const whatsappNumber = String(settings?.contact_info?.whatsapp || process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "966507655173").replace(/\D/g, "");
 
   return (
     <motion.a

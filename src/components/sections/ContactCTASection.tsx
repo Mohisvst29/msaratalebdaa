@@ -11,9 +11,10 @@ interface ContactCTASectionProps {
 }
 
 export default function ContactCTASection({ bgImage }: ContactCTASectionProps) {
-  const { t, dir, locale, dynamic } = useLocale();
+  const { t, dir, locale, dynamic, settings } = useLocale();
   const Arrow = dir === "rtl" ? ArrowLeft : ArrowRight;
   const isVideo = typeof bgImage === "string" && (bgImage.includes("/video/upload/") || bgImage.endsWith(".mp4"));
+  const whatsappNumber = String(settings?.contact_info?.whatsapp || process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "966507655173").replace(/\D/g, "");
 
   return (
     <section className="py-24 md:py-32 bg-[#00AEEF] relative overflow-hidden">
@@ -69,7 +70,7 @@ export default function ContactCTASection({ bgImage }: ContactCTASectionProps) {
           </Link>
           
           <a 
-            href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "966507655173"}`}
+            href={`https://wa.me/${whatsappNumber}`}
             target="_blank"
             rel="noreferrer"
             className="group flex items-center justify-center gap-4 bg-transparent text-[#050505] border-2 border-[#050505] px-8 py-4 rounded-full font-bold hover:bg-[#050505] hover:text-white transition-all duration-300 w-full sm:w-auto "

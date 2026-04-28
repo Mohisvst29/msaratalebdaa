@@ -106,7 +106,7 @@ export default function ContactPage() {
                 {locale === "ar" ? "استفسارات سريعة؟" : "Quick Inquiries?"}
               </h3>
               <a 
-                href={`https://wa.me/${settings?.whatsapp || "966507655173"}`}
+                href={`https://wa.me/${String(settings?.whatsapp || process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "966507655173").replace(/\D/g, "")}`}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center justify-center gap-4 bg-transparent border border-slate-200 text-slate-900 w-full py-6 rounded-full font-bold uppercase tracking-widest hover:border-[#00AEEF] hover:text-[#00AEEF] transition-colors duration-500 "

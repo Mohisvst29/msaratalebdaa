@@ -23,11 +23,11 @@ interface ProductsSectionProps {
 }
 
 export default function ProductsSection({ bgImage }: ProductsSectionProps) {
-  const { locale, t, dir, dynamic } = useLocale();
+  const { locale, t, dir, dynamic, settings } = useLocale();
   const Arrow = dir === "rtl" ? ArrowLeft : ArrowRight;
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "966507655173";
+  const whatsappNumber = String(settings?.contact_info?.whatsapp || process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "966507655173").replace(/\D/g, "");
 
   useEffect(() => {
     fetchProducts();
