@@ -310,6 +310,24 @@ export default function AdminSettings() {
                   />
                 </div>
               </div>
+
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mr-4">لون الخط العام</label>
+                <div className="flex gap-4">
+                  <input
+                    type="color"
+                    value={settings.logo?.textColor || "#f5f5f5"}
+                    onChange={(e) => handleInputChange("logo", "textColor", e.target.value)}
+                    className="w-16 h-16 rounded-xl overflow-hidden cursor-pointer border-0 p-0"
+                  />
+                  <input
+                    type="text"
+                    value={settings.logo?.textColor || "#f5f5f5"}
+                    onChange={(e) => handleInputChange("logo", "textColor", e.target.value)}
+                    className="flex-1 bg-gray-50 border border-gray-200 rounded-2xl p-4 text-slate-900 focus:border-cyan-500 outline-none transition-colors font-mono"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
