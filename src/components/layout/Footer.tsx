@@ -43,6 +43,15 @@ export default function Footer() {
 
   const logoSettings = settings?.logo;
 
+  // Safety extraction for map URL if user pasted the entire iframe tag
+  let finalMapUrl = contactInfo?.mapUrl || "";
+  if (finalMapUrl.includes("<iframe")) {
+    const match = finalMapUrl.match(/src="([^"]+)"/);
+    if (match && match[1]) {
+      finalMapUrl = match[1];
+    }
+  }
+
   return (
     <footer className="bg-white text-slate-900 pt-32 pb-12 relative overflow-hidden border-t border-gray-100" dir={dir}>
       {/* Massive Background Text */}
@@ -54,6 +63,48 @@ export default function Footer() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 mb-16 md:mb-32">
+          {/* Logo & Socials - NOW ON THE FAR RIGHT (In RTL) */}
+          <div className="text-start">
+            <Link href="/" className="flex items-center gap-3 mb-6 group ">
+              {logoSettings?.url ? (
+                <div className="relative h-10 w-32 md:h-12 md:w-44">
+                  <Image 
+                    src={logoSettings.url} 
+                    alt={logoSettings.companyName || "Logo"} 
+                    fill 
+                    className="object-contain object-right"
+                  />
+                </div>
+              ) : (
+                <div className="flex items-center gap-3">
+                  <span className="text-lg font-black uppercase tracking-tight text-slate-900">
+                    {logoSettings?.companyName || "Masarat"}
+                  </span>
+                </div>
+              )}
+            </Link>
+            <p className="text-slate-500 font-light leading-relaxed text-xs mb-8">
+              {t("footer.description")}
+            </p>
+            <div className="flex flex-wrap gap-3">
+              {socialLinks.map(({ id, Icon }) => {
+                const url = contactInfo?.[id];
+                if (!url) return null;
+                return (
+                  <a 
+                    key={id}
+                    href={url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="w-10 h-10 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 hover:bg-[#00AEEF] hover:text-white hover:border-[#00AEEF] transition-all duration-300"
+                  >
+                    <Icon />
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+
           {/* Quick Links */}
           <div className="text-start">
             <h4 className="text-sm font-bold mb-6 md:mb-8 text-slate-900 uppercase tracking-[0.2em]">{t("footer.quickLinks")}</h4>
@@ -105,13 +156,13 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Map Section (The Red Box Area) */}
+          {/* Map Section - NOW ON THE FAR LEFT (In RTL) */}
           <div className="text-start">
             <h4 className="text-sm font-bold mb-6 md:mb-8 text-slate-900 uppercase tracking-[0.2em]">{locale === "ar" ? "موقعنا" : "Location"}</h4>
             <div className="relative w-full h-48 rounded-2xl overflow-hidden border border-slate-100 shadow-sm group">
-              {contactInfo?.mapUrl ? (
+              {finalMapUrl ? (
                 <iframe
-                  src={contactInfo.mapUrl}
+                  src={finalMapUrl}
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
@@ -124,48 +175,6 @@ export default function Footer() {
                   <MapPin className="w-8 h-8" />
                 </div>
               )}
-            </div>
-          </div>
-
-          {/* Logo & Socials */}
-          <div className="text-start">
-            <Link href="/" className="flex items-center gap-3 mb-6 group ">
-              {logoSettings?.url ? (
-                <div className="relative h-10 w-32 md:h-12 md:w-44">
-                  <Image 
-                    src={logoSettings.url} 
-                    alt={logoSettings.companyName || "Logo"} 
-                    fill 
-                    className="object-contain object-right"
-                  />
-                </div>
-              ) : (
-                <div className="flex items-center gap-3">
-                  <span className="text-lg font-black uppercase tracking-tight text-slate-900">
-                    {logoSettings?.companyName || "Masarat"}
-                  </span>
-                </div>
-              )}
-            </Link>
-            <p className="text-slate-500 font-light leading-relaxed text-xs mb-8">
-              {t("footer.description")}
-            </p>
-            <div className="flex flex-wrap gap-3">
-              {socialLinks.map(({ id, Icon }) => {
-                const url = contactInfo?.[id];
-                if (!url) return null;
-                return (
-                  <a 
-                    key={id}
-                    href={url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="w-10 h-10 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 hover:bg-[#00AEEF] hover:text-white hover:border-[#00AEEF] transition-all duration-300"
-                  >
-                    <Icon />
-                  </a>
-                );
-              })}
             </div>
           </div>
         </div>
