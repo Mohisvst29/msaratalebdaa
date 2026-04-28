@@ -286,8 +286,13 @@ export default function AdminSettings() {
                     <option value="Tajawal">Tajawal (هندسي)</option>
                     <option value="Cairo">Cairo (رسمي)</option>
                     <option value="Almarai">Almarai (عصري)</option>
+                    <option value="Amiri">Amiri (كلاسيكي)</option>
+                    <option value="Changa">Changa (فني)</option>
+                    <option value="Lalezar">Lalezar (بارز)</option>
                     <option value="Inter">Inter (إنجليزي عالمي)</option>
                     <option value="Rubik">Rubik (ناعم)</option>
+                    <option value="Montserrat">Montserrat (عصري غربي)</option>
+                    <option value="Poppins">Poppins (نظيف)</option>
                   </select>
                   <Type className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" />
                 </div>
