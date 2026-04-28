@@ -145,12 +145,22 @@ export default function AdminSettings() {
   };
 
   const handleInputChange = (section: string, field: string, value: any) => {
+    let finalValue = value;
+    
+    // Auto-extract URL from iframe tag for mapUrl
+    if (field === "mapUrl" && typeof value === "string" && value.includes("<iframe")) {
+      const match = value.match(/src="([^"]+)"/);
+      if (match && match[1]) {
+        finalValue = match[1];
+      }
+    }
+
     const sectionData = settings[section] || {};
     setSettings({
       ...settings,
       [section]: {
         ...sectionData,
-        [field]: value
+        [field]: finalValue
       }
     });
   };
