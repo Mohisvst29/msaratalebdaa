@@ -16,7 +16,8 @@ import {
   User,
   Users,
   ImageIcon,
-  PhoneCall
+  PhoneCall,
+  Database
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -65,6 +66,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { name: "محتوى الموقع", href: "/admin/content", icon: ImageIcon },
     { name: "بيانات التواصل", href: "/admin/contact", icon: PhoneCall },
     { name: "إعدادات عامة", href: "/admin/settings", icon: Settings },
+    { name: "النسخ الاحتياطي", href: "/admin/backup", icon: Database },
   ];
 
   const handleLogout = () => {
