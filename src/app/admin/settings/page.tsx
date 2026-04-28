@@ -312,18 +312,72 @@ export default function AdminSettings() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mr-4">لون الخط العام</label>
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mr-4">لون العناوين الرئيسية</label>
                 <div className="flex gap-4">
                   <input
                     type="color"
-                    value={settings.logo?.textColor || "#f5f5f5"}
+                    value={settings.logo?.headingColor || "#0f172a"}
+                    onChange={(e) => handleInputChange("logo", "headingColor", e.target.value)}
+                    className="w-16 h-16 rounded-xl overflow-hidden cursor-pointer border-0 p-0"
+                  />
+                  <input
+                    type="text"
+                    value={settings.logo?.headingColor || "#0f172a"}
+                    onChange={(e) => handleInputChange("logo", "headingColor", e.target.value)}
+                    className="flex-1 bg-gray-50 border border-gray-200 rounded-2xl p-4 text-slate-900 focus:border-cyan-500 outline-none transition-colors font-mono"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mr-4">لون العناوين الفرعية</label>
+                <div className="flex gap-4">
+                  <input
+                    type="color"
+                    value={settings.logo?.subHeadingColor || "#64748b"}
+                    onChange={(e) => handleInputChange("logo", "subHeadingColor", e.target.value)}
+                    className="w-16 h-16 rounded-xl overflow-hidden cursor-pointer border-0 p-0"
+                  />
+                  <input
+                    type="text"
+                    value={settings.logo?.subHeadingColor || "#64748b"}
+                    onChange={(e) => handleInputChange("logo", "subHeadingColor", e.target.value)}
+                    className="flex-1 bg-gray-50 border border-gray-200 rounded-2xl p-4 text-slate-900 focus:border-cyan-500 outline-none transition-colors font-mono"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mr-4">لون نصوص الفقرات</label>
+                <div className="flex gap-4">
+                  <input
+                    type="color"
+                    value={settings.logo?.textColor || "#475569"}
                     onChange={(e) => handleInputChange("logo", "textColor", e.target.value)}
                     className="w-16 h-16 rounded-xl overflow-hidden cursor-pointer border-0 p-0"
                   />
                   <input
                     type="text"
-                    value={settings.logo?.textColor || "#f5f5f5"}
+                    value={settings.logo?.textColor || "#475569"}
                     onChange={(e) => handleInputChange("logo", "textColor", e.target.value)}
+                    className="flex-1 bg-gray-50 border border-gray-200 rounded-2xl p-4 text-slate-900 focus:border-cyan-500 outline-none transition-colors font-mono"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mr-4">لون النصوص الثانوية/الباهتة</label>
+                <div className="flex gap-4">
+                  <input
+                    type="color"
+                    value={settings.logo?.mutedColor || "#94a3b8"}
+                    onChange={(e) => handleInputChange("logo", "mutedColor", e.target.value)}
+                    className="w-16 h-16 rounded-xl overflow-hidden cursor-pointer border-0 p-0"
+                  />
+                  <input
+                    type="text"
+                    value={settings.logo?.mutedColor || "#94a3b8"}
+                    onChange={(e) => handleInputChange("logo", "mutedColor", e.target.value)}
                     className="flex-1 bg-gray-50 border border-gray-200 rounded-2xl p-4 text-slate-900 focus:border-cyan-500 outline-none transition-colors font-mono"
                   />
                 </div>

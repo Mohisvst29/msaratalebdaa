@@ -6,7 +6,10 @@ import { useEffect, useState } from "react";
 export default function ClientBody({ children }: { children: React.ReactNode }) {
   const [font, setFont] = useState("Tajawal");
   const [primaryColor, setPrimaryColor] = useState("#00AEEF");
-  const [textColor, setTextColor] = useState("#f5f5f5");
+  const [headingColor, setHeadingColor] = useState("#0f172a");
+  const [subHeadingColor, setSubHeadingColor] = useState("#64748b");
+  const [textColor, setTextColor] = useState("#475569");
+  const [mutedColor, setMutedColor] = useState("#94a3b8");
 
   useEffect(() => {
     // Fetch settings to get the font and color
@@ -18,7 +21,10 @@ export default function ClientBody({ children }: { children: React.ReactNode }) 
           const l = data.data.logo;
           if (l.fontFamily) setFont(l.fontFamily);
           if (l.primaryColor) setPrimaryColor(l.primaryColor);
+          if (l.headingColor) setHeadingColor(l.headingColor);
+          if (l.subHeadingColor) setSubHeadingColor(l.subHeadingColor);
           if (l.textColor) setTextColor(l.textColor);
+          if (l.mutedColor) setMutedColor(l.mutedColor);
         }
       } catch (err) {
         console.error(err);
@@ -29,7 +35,7 @@ export default function ClientBody({ children }: { children: React.ReactNode }) 
 
   return (
     <body 
-      className="antialiased bg-[#050505] overflow-x-hidden selection:bg-cyan-500 selection:text-white"
+      className="antialiased bg-white overflow-x-hidden selection:bg-cyan-500 selection:text-white"
       style={{ 
         fontFamily: `${font}, sans-serif`,
         color: textColor,
@@ -46,24 +52,62 @@ export default function ClientBody({ children }: { children: React.ReactNode }) 
           background-color: ${primaryColor};
           color: white;
         }
-        .text-cyan-500 { color: ${primaryColor} !important; }
-        .bg-cyan-500 { background-color: ${primaryColor} !important; }
-        .border-cyan-500 { border-color: ${primaryColor} !important; }
         
-        /* Smooth typography for all headings */
+        /* Apply dynamic colors to headings */
+        h1, h2, .text-heading {
+          color: ${headingColor} !important;
+        }
+        
+        h3, h4, h5, h6, .text-subheading {
+          color: ${subHeadingColor} !important;
+        }
+        
+        /* Apply dynamic colors to paragraphs and general text */
+        p, li, blockquote, .text-body {
+          color: ${textColor} !important;
+        }
+        
+        /* Apply dynamic colors to muted/secondary text */
+        .text-muted, .text-slate-400, .text-slate-500, .text-gray-400, .text-gray-500 {
+          color: ${mutedColor} !important;
+        }
+
+        /* Specific overrides for common Tailwind classes used for headings/titles in this project */
+        .text-slate-900, .text-gray-900, .text-black {
+          color: ${headingColor} !important;
+        }
+        
+        .text-slate-600, .text-slate-700, .text-gray-600 {
+          color: ${subHeadingColor} !important;
+        }
+
+        /* Exceptions for components that should keep the primary color */
+        .text-cyan-500, .text-primary, [class*="text-[#00AEEF]"] {
+          color: ${primaryColor} !important;
+        }
+        
+        .bg-cyan-500, .bg-primary, [class*="bg-[#00AEEF]"] {
+          background-color: ${primaryColor} !important;
+        }
+        
+        .border-cyan-500, .border-primary, [class*="border-[#00AEEF]"] {
+          border-color: ${primaryColor} !important;
+        }
+        
+        /* Smooth typography */
         h1, h2, h3, h4, h5, h6 {
           line-height: 1.2 !important;
           margin-bottom: 0.5em !important;
-          color: ${textColor} !important;
-        }
-        p, li, blockquote {
-          color: ${textColor} !important;
         }
         
-        /* Links should usually stay as primary color or inherit */
+        p {
+          margin-bottom: 1.5em !important;
+        }
+        
         a {
           transition: color 0.3s ease;
         }
+        
         p a {
           color: ${primaryColor};
           text-decoration: underline;
