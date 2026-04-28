@@ -159,37 +159,36 @@ export default function Footer() {
           {/* Map Section - NOW ON THE FAR LEFT (In RTL) */}
           <div className="text-start">
             <h4 className="text-sm font-bold mb-6 md:mb-8 text-slate-900 uppercase tracking-[0.2em]">{locale === "ar" ? "موقعنا" : "Location"}</h4>
-            <a 
-              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contactInfo?.addressAr || "شركة مسارات الإبداع الرائدة")}`}
-              target="_blank"
-              rel="noreferrer"
-              className="relative block w-full h-48 rounded-2xl overflow-hidden border border-slate-100 shadow-sm group cursor-pointer"
-            >
+            <div className="relative w-full h-48 rounded-2xl overflow-hidden border border-slate-100 shadow-sm bg-slate-50 group">
               {finalMapUrl ? (
                 <>
                   <iframe
                     src={finalMapUrl}
                     width="100%"
                     height="100%"
-                    style={{ border: 0, pointerEvents: 'none' }}
+                    style={{ border: 0 }}
                     allowFullScreen={true}
                     loading="lazy"
                     className="transition-all duration-700"
                   ></iframe>
-                  {/* Overlay to handle the click since iframe captures it */}
-                  <div className="absolute inset-0 bg-[#00AEEF]/0 group-hover:bg-[#00AEEF]/10 transition-all flex items-center justify-center">
-                    <div className="bg-white/90 p-3 rounded-xl shadow-xl opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0 flex items-center gap-2">
-                      <MapPin className="w-4 h-4 text-[#00AEEF]" />
-                      <span className="text-[10px] font-bold text-slate-900">{locale === "ar" ? "فتح في الخرائط" : "Open in Maps"}</span>
-                    </div>
-                  </div>
+                  
+                  {/* Floating Link Button - Clean & Functional */}
+                  <a 
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contactInfo?.addressAr || "شركة مسارات الإبداع الرائدة")}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="absolute top-3 end-3 bg-white/90 backdrop-blur-sm p-2 rounded-lg shadow-lg flex items-center gap-2 border border-slate-100 hover:bg-[#00AEEF] hover:text-white transition-all duration-300 opacity-0 group-hover:opacity-100 transform translate-y-[-10px] group-hover:translate-y-0"
+                  >
+                    <MapPin className="w-3.5 h-3.5" />
+                    <span className="text-[10px] font-bold">{locale === "ar" ? "خرائط جوجل" : "Google Maps"}</span>
+                  </a>
                 </>
               ) : (
-                <div className="w-full h-full bg-slate-50 flex items-center justify-center text-slate-300">
+                <div className="w-full h-full flex items-center justify-center text-slate-300">
                   <MapPin className="w-8 h-8" />
                 </div>
               )}
-            </a>
+            </div>
           </div>
         </div>
 
