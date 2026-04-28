@@ -53,40 +53,7 @@ export default function Footer() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-16 mb-16 md:mb-32">
-          {/* Logo & Description */}
-          <div className="lg:col-span-1 text-start">
-            <Link href="/" className="flex items-center gap-3 mb-6 md:mb-8 group ">
-              {logoSettings?.url ? (
-                <div className="relative h-12 w-40 md:h-16 md:w-56">
-                  <Image 
-                    src={logoSettings.url} 
-                    alt={logoSettings.companyName || "Logo"} 
-                    fill 
-                    className="object-contain object-right"
-                  />
-                </div>
-              ) : (
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 flex items-center justify-center text-[#00AEEF] transition-colors">
-                    <Building2 className="w-10 h-10" />
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-xl font-black uppercase tracking-tight text-slate-900 transition-colors">
-                      {logoSettings?.companyName || (locale === "ar" ? "مسارات الإبداع" : "Masarat")}
-                    </span>
-                    <span className="text-[10px] tracking-[0.2em] uppercase text-[#00AEEF] font-bold mt-1">
-                      {locale === "ar" ? "الرائدة" : "Al Raida"}
-                    </span>
-                  </div>
-                </div>
-              )}
-            </Link>
-            <p className="text-slate-500 font-light leading-relaxed text-sm">
-              {t("footer.description")}
-            </p>
-          </div>
-
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 mb-16 md:mb-32">
           {/* Quick Links */}
           <div className="text-start">
             <h4 className="text-sm font-bold mb-6 md:mb-8 text-slate-900 uppercase tracking-[0.2em]">{t("footer.quickLinks")}</h4>
@@ -104,61 +71,101 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Contact Info & Socials */}
-          <div className="lg:col-span-2 text-start">
+          {/* Contact Info */}
+          <div className="text-start">
             <h4 className="text-sm font-bold mb-6 md:mb-8 text-slate-900 uppercase tracking-[0.2em]">{t("footer.contactInfo")}</h4>
-            <div className="grid sm:grid-cols-2 gap-8 md:gap-12">
-              <ul className="space-y-4 md:space-y-6">
-                <li className="flex items-center gap-4">
-                  <Phone className="w-6 h-6 text-[#00AEEF] shrink-0" />
-                  <div className="flex flex-col gap-1 text-slate-600 text-sm font-medium" dir="ltr">
-                    <span>{contactInfo?.phone1 || t("contact.phone1.value")}</span>
-                    <span>{contactInfo?.phone2 || t("contact.phone2.value")}</span>
-                  </div>
-                </li>
-                <li className="flex items-center gap-4">
-                  <Mail className="w-6 h-6 text-[#00AEEF] shrink-0" />
-                  <span className="text-slate-600 text-sm font-medium">
-                    {contactInfo?.email || t("contact.email.value")}
-                  </span>
-                </li>
-                <li className="flex items-center gap-4">
-                  <Globe className="w-6 h-6 text-[#00AEEF] shrink-0" />
-                  <span className="text-slate-600 text-sm font-medium" dir="ltr">
-                    {contactInfo?.website || t("contact.website.value")}
-                  </span>
-                </li>
-                {(contactInfo?.addressAr || contactInfo?.addressEn) && (
-                  <li className="flex items-start gap-4">
-                    <MapPin className="w-6 h-6 text-[#00AEEF] shrink-0 mt-1" />
-                    <span className="text-slate-600 text-sm font-medium leading-relaxed">
-                      {locale === "ar" ? contactInfo.addressAr : contactInfo.addressEn || contactInfo.addressAr}
-                    </span>
-                  </li>
-                )}
-              </ul>
-
-              <div className="space-y-4 md:space-y-6">
-                <h5 className="text-xs font-bold text-slate-400 uppercase tracking-widest">{t("footer.followUs") || "تابعنا على"}</h5>
-                <div className="flex flex-wrap gap-4">
-                  {socialLinks.map(({ id, Icon }) => {
-                    const url = contactInfo?.[id];
-                    if (!url) return null;
-                    return (
-                      <a 
-                        key={id}
-                        href={url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="w-12 h-12 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 hover:bg-[#00AEEF] hover:text-white hover:border-[#00AEEF] transition-all duration-300"
-                        title={id}
-                      >
-                        <Icon />
-                      </a>
-                    );
-                  })}
+            <ul className="space-y-4 md:space-y-6">
+              <li className="flex items-center gap-4">
+                <Phone className="w-5 h-5 text-[#00AEEF] shrink-0" />
+                <div className="flex flex-col text-slate-600 text-sm font-medium" dir="ltr">
+                  <span>{contactInfo?.phone1 || t("contact.phone1.value")}</span>
+                  <span>{contactInfo?.phone2 || t("contact.phone2.value")}</span>
                 </div>
-              </div>
+              </li>
+              <li className="flex items-center gap-4">
+                <Mail className="w-5 h-5 text-[#00AEEF] shrink-0" />
+                <span className="text-slate-600 text-sm font-medium">
+                  {contactInfo?.email || t("contact.email.value")}
+                </span>
+              </li>
+              <li className="flex items-center gap-4">
+                <Globe className="w-5 h-5 text-[#00AEEF] shrink-0" />
+                <span className="text-slate-600 text-sm font-medium" dir="ltr">
+                  {contactInfo?.website || t("contact.website.value")}
+                </span>
+              </li>
+              {(contactInfo?.addressAr || contactInfo?.addressEn) && (
+                <li className="flex items-start gap-4">
+                  <MapPin className="w-5 h-5 text-[#00AEEF] shrink-0 mt-1" />
+                  <span className="text-slate-600 text-sm font-medium leading-relaxed">
+                    {locale === "ar" ? contactInfo.addressAr : contactInfo.addressEn || contactInfo.addressAr}
+                  </span>
+                </li>
+              )}
+            </ul>
+          </div>
+
+          {/* Map Section (The Red Box Area) */}
+          <div className="text-start">
+            <h4 className="text-sm font-bold mb-6 md:mb-8 text-slate-900 uppercase tracking-[0.2em]">{locale === "ar" ? "موقعنا" : "Location"}</h4>
+            <div className="relative w-full h-48 rounded-2xl overflow-hidden border border-slate-100 shadow-sm group">
+              {contactInfo?.mapUrl ? (
+                <iframe
+                  src={contactInfo.mapUrl}
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen={true}
+                  loading="lazy"
+                  className="grayscale hover:grayscale-0 transition-all duration-700"
+                ></iframe>
+              ) : (
+                <div className="w-full h-full bg-slate-50 flex items-center justify-center text-slate-300">
+                  <MapPin className="w-8 h-8" />
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Logo & Socials */}
+          <div className="text-start">
+            <Link href="/" className="flex items-center gap-3 mb-6 group ">
+              {logoSettings?.url ? (
+                <div className="relative h-10 w-32 md:h-12 md:w-44">
+                  <Image 
+                    src={logoSettings.url} 
+                    alt={logoSettings.companyName || "Logo"} 
+                    fill 
+                    className="object-contain object-right"
+                  />
+                </div>
+              ) : (
+                <div className="flex items-center gap-3">
+                  <span className="text-lg font-black uppercase tracking-tight text-slate-900">
+                    {logoSettings?.companyName || "Masarat"}
+                  </span>
+                </div>
+              )}
+            </Link>
+            <p className="text-slate-500 font-light leading-relaxed text-xs mb-8">
+              {t("footer.description")}
+            </p>
+            <div className="flex flex-wrap gap-3">
+              {socialLinks.map(({ id, Icon }) => {
+                const url = contactInfo?.[id];
+                if (!url) return null;
+                return (
+                  <a 
+                    key={id}
+                    href={url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="w-10 h-10 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 hover:bg-[#00AEEF] hover:text-white hover:border-[#00AEEF] transition-all duration-300"
+                  >
+                    <Icon />
+                  </a>
+                );
+              })}
             </div>
           </div>
         </div>
