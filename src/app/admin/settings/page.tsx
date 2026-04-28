@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Save, Check, Loader2, Building2, Upload, Type } from "lucide-react";
+import { Save, Check, Loader2, Building2, Upload, Type, MapPin } from "lucide-react";
 import Image from "next/image";
 
 export default function AdminSettings() {
