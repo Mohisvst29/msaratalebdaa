@@ -549,7 +549,7 @@ export default function AdminSettings() {
               dir="ltr"
             />
             <p className="text-[10px] text-slate-400">
-              * اذهب لخرائط جوجل > مشاركة > تضمين خريطة > انسخ الرابط الموجود داخل src فقط.
+              * اذهب لخرائط جوجل → مشاركة → تضمين خريطة → انسخ الرابط الموجود داخل src فقط.
             </p>
           </div>
         </div>
