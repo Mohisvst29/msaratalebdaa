@@ -9,6 +9,7 @@ import ProjectsSection from "@/components/sections/ProjectsSection";
 import WhyChooseUsSection from "@/components/sections/WhyChooseUsSection";
 import ClientsSection from "@/components/sections/ClientsSection";
 import ContactCTASection from "@/components/sections/ContactCTASection";
+import MapSection from "@/components/sections/MapSection";
 
 async function getSettings() {
   try {
