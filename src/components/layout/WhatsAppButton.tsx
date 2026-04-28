@@ -18,10 +18,10 @@ export default function FloatingActions() {
 
   return (
     <div className="fixed bottom-6 start-6 z-50 flex flex-col gap-4">
-      {/* Call Button */}
+      {/* Call Button - Hidden on Mobile */}
       <motion.a
         href={`tel:${phoneNumber}`}
-        className="w-14 h-14 bg-cyan-500 hover:bg-cyan-600 text-white rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 group relative"
+        className="hidden md:flex w-14 h-14 bg-cyan-500 hover:bg-cyan-600 text-white rounded-full shadow-2xl items-center justify-center transition-all duration-300 hover:scale-110 group relative"
         initial={{ scale: 0, opacity: 0, x: -20 }}
         animate={{ scale: 1, opacity: 1, x: 0 }}
         transition={{ delay: 1.2, type: "spring", stiffness: 200 }}

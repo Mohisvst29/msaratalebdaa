@@ -168,7 +168,7 @@ export default function Footer() {
                   style={{ border: 0 }}
                   allowFullScreen={true}
                   loading="lazy"
-                  className="grayscale hover:grayscale-0 transition-all duration-700"
+                  className="transition-all duration-700"
                 ></iframe>
               ) : (
                 <div className="w-full h-full bg-slate-50 flex items-center justify-center text-slate-300">
