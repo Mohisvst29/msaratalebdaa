@@ -10,6 +10,8 @@ export default function ClientBody({ children }: { children: React.ReactNode }) 
   const [subHeadingColor, setSubHeadingColor] = useState("#64748b");
   const [textColor, setTextColor] = useState("#475569");
   const [mutedColor, setMutedColor] = useState("#94a3b8");
+  const [shadowColor, setShadowColor] = useState("transparent");
+  const [shadowBlur, setShadowBlur] = useState(0);
 
   useEffect(() => {
     // Fetch settings to get the font and color
@@ -25,6 +27,8 @@ export default function ClientBody({ children }: { children: React.ReactNode }) 
           if (l.subHeadingColor) setSubHeadingColor(l.subHeadingColor);
           if (l.textColor) setTextColor(l.textColor);
           if (l.mutedColor) setMutedColor(l.mutedColor);
+          if (l.shadowColor) setShadowColor(l.shadowColor);
+          if (l.shadowBlur !== undefined) setShadowBlur(l.shadowBlur);
         }
       } catch (err) {
         console.error(err);
@@ -32,6 +36,8 @@ export default function ClientBody({ children }: { children: React.ReactNode }) 
     };
     fetchSettings();
   }, []);
+
+  const textShadowValue = shadowBlur > 0 ? `1px 1px ${shadowBlur}px ${shadowColor}` : 'none';
 
   return (
     <body 
@@ -53,18 +59,21 @@ export default function ClientBody({ children }: { children: React.ReactNode }) 
           color: white;
         }
         
-        /* Apply dynamic colors to headings */
+        /* Apply dynamic colors and shadow to headings */
         h1, h2, .text-heading {
           color: ${headingColor} !important;
+          text-shadow: ${textShadowValue} !important;
         }
         
         h3, h4, h5, h6, .text-subheading {
           color: ${subHeadingColor} !important;
+          text-shadow: ${textShadowValue} !important;
         }
         
-        /* Apply dynamic colors to paragraphs and general text */
+        /* Apply dynamic colors and shadow to paragraphs and general text */
         p, li, blockquote, .text-body {
           color: ${textColor} !important;
+          text-shadow: ${textShadowValue} !important;
         }
         
         /* Apply dynamic colors to muted/secondary text */

@@ -387,6 +387,38 @@ export default function AdminSettings() {
                   />
                 </div>
               </div>
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mr-4">لون ظل النصوص</label>
+                <div className="flex gap-4">
+                  <input
+                    type="color"
+                    value={settings.logo?.shadowColor || "rgba(0,0,0,0.1)"}
+                    onChange={(e) => handleInputChange("logo", "shadowColor", e.target.value)}
+                    className="w-16 h-16 rounded-xl overflow-hidden cursor-pointer border-0 p-0"
+                  />
+                  <input
+                    type="text"
+                    value={settings.logo?.shadowColor || "rgba(0,0,0,0.1)"}
+                    onChange={(e) => handleInputChange("logo", "shadowColor", e.target.value)}
+                    className="flex-1 bg-gray-50 border border-gray-200 rounded-2xl p-4 text-slate-900 focus:border-cyan-500 outline-none transition-colors font-mono"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mr-4">وضوح ظل النصوص (Blur)</label>
+                  <span className="text-cyan-500 font-black">{settings.logo?.shadowBlur || 2}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="20"
+                  value={settings.logo?.shadowBlur || 2}
+                  onChange={(e) => handleInputChange("logo", "shadowBlur", parseInt(e.target.value))}
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-cyan-500"
+                />
+              </div>
             </div>
           </div>
         </div>
