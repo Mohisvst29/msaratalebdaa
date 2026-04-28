@@ -3,10 +3,12 @@
 import { useState } from "react";
 import { Download, Upload, AlertTriangle, CheckCircle2, Loader2, Database } from "lucide-react";
 import { motion } from "framer-motion";
-import { useToast } from "@/hooks/use-toast";
+// import { useToast } from "@/hooks/use-toast";
 
 export default function BackupPage() {
-  const { toast } = useToast();
+  const toast = ({ title, description, variant }: any) => {
+    console.log(`${variant}: ${title} - ${description}`);
+  };
   const [isExporting, setIsExporting] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
