@@ -12,7 +12,6 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       <main className="min-h-screen">{children}</main>
       <Footer />
       <WhatsAppButton />
-      <LanguageSwitcher />
     </>
   );
 }

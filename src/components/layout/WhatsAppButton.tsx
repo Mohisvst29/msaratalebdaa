@@ -1,6 +1,6 @@
 "use client";
 
-import { Phone } from "lucide-react";
+import { Phone, Globe } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLocale } from "@/hooks/useLocale";
 
@@ -12,19 +12,40 @@ const WhatsAppIcon = () => (
 );
 
 export default function FloatingActions() {
-  const { settings } = useLocale();
+  const { settings, locale, setLocale } = useLocale();
   const whatsappNumber = String(settings?.contact_info?.whatsapp || process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "966507655173").replace(/\D/g, "");
   const phoneNumber = String(settings?.contact_info?.phone1 || "966507655173").replace(/\D/g, "");
 
+  const toggleLocale = () => {
+    setLocale(locale === "ar" ? "en" : "ar");
+  };
+
   return (
     <div className="fixed bottom-6 start-6 z-50 flex flex-col gap-4">
-      {/* Call Button - Hidden on Mobile */}
+      {/* WhatsApp Button (Top) */}
       <motion.a
-        href={`tel:${phoneNumber}`}
-        className="hidden md:flex w-14 h-14 bg-cyan-500 hover:bg-cyan-600 text-white rounded-full shadow-2xl items-center justify-center transition-all duration-300 hover:scale-110 group relative"
+        href={`https://wa.me/${whatsappNumber}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="w-14 h-14 bg-[#25D366] hover:bg-[#20ba59] text-white rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 group relative"
         initial={{ scale: 0, opacity: 0, x: -20 }}
         animate={{ scale: 1, opacity: 1, x: 0 }}
-        transition={{ delay: 1.2, type: "spring", stiffness: 200 }}
+        transition={{ delay: 0.6, type: "spring", stiffness: 200 }}
+        whileHover={{ scale: 1.15 }}
+        whileTap={{ scale: 0.95 }}
+        aria-label="WhatsApp"
+      >
+        <WhatsAppIcon />
+        <span className="absolute w-full h-full rounded-full bg-[#25D366] animate-ping opacity-25" />
+      </motion.a>
+
+      {/* Call Button (Middle) */}
+      <motion.a
+        href={`tel:${phoneNumber}`}
+        className="w-14 h-14 bg-cyan-500 hover:bg-cyan-600 text-white rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 group relative"
+        initial={{ scale: 0, opacity: 0, x: -20 }}
+        animate={{ scale: 1, opacity: 1, x: 0 }}
+        transition={{ delay: 0.8, type: "spring", stiffness: 200 }}
         whileHover={{ scale: 1.15 }}
         whileTap={{ scale: 0.95 }}
         aria-label="Call Us"
@@ -33,23 +54,22 @@ export default function FloatingActions() {
         <span className="absolute w-full h-full rounded-full bg-cyan-500 animate-ping opacity-20" />
       </motion.a>
 
-      {/* WhatsApp Button */}
-      <motion.a
-        href={`https://wa.me/${whatsappNumber}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="w-14 h-14 bg-[#25D366] hover:bg-[#20ba59] text-white rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 group relative"
+      {/* Language Switcher (Bottom) */}
+      <motion.button
+        onClick={toggleLocale}
+        className="w-14 h-14 bg-white border border-slate-200 text-slate-900 rounded-full shadow-2xl flex flex-col items-center justify-center transition-all duration-300 hover:scale-110 group"
         initial={{ scale: 0, opacity: 0, x: -20 }}
         animate={{ scale: 1, opacity: 1, x: 0 }}
         transition={{ delay: 1, type: "spring", stiffness: 200 }}
         whileHover={{ scale: 1.15 }}
         whileTap={{ scale: 0.95 }}
-        aria-label="WhatsApp"
+        aria-label="Toggle Language"
       >
-        <WhatsAppIcon />
-        {/* Pulse Effect */}
-        <span className="absolute w-full h-full rounded-full bg-[#25D366] animate-ping opacity-25" />
-      </motion.a>
+        <Globe className="w-5 h-5 text-[#00AEEF] mb-0.5" />
+        <span className="text-[10px] font-black uppercase">
+          {locale === "ar" ? "EN" : "AR"}
+        </span>
+      </motion.button>
     </div>
   );
 }
